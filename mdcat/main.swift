@@ -6,32 +6,6 @@ public func printArray(_ tokens:[Any]) {
 	}
 }
 
-let source:String = multiline(
-	"# Header",
-    "## Subheader",
-    "This is example text",
-    "## Another Subheader",
-    "Some more text",
-    "This should be a headline after parsing",
-    "====",
-    "This should be a subheader after parsing",
-    "------"
-)
-
-print("== LEXER ==\n")
-
-let lexer = Lexer(input: source)
-let tokens = lexer.tokenize()
-printArray(tokens)
-
-print("\n== PARSER == \n")
-
-let parser = Parser(tokens: tokens)
-let nodes = parser.parse()
-printArray(nodes)
-
-print("\n== TABLE OF CONTENTS ==\n");
-
 public func printTOC(_ nodes:[Node]) {
 	for node in nodes {
 		switch node {
@@ -45,4 +19,28 @@ public func printTOC(_ nodes:[Node]) {
 	}
 }
 
-printTOC(nodes)
+// Get CLI arguments
+let arguments = CommandLine.arguments
+
+if arguments.count < 2 {
+	print("I need a file!")
+	exit(1)
+}
+
+let file = arguments[1]
+
+do {
+	// Load file
+	let text = try String(contentsOf: URL(fileURLWithPath: file), encoding: String.Encoding.utf8)
+	
+	// Parse document
+	let doc = Document(withText: text)
+	
+	_ = UI(withDocument: doc)
+	
+} catch {
+	print("Could not load file: " + file);
+	exit(1)
+}
+
+

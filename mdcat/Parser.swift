@@ -5,7 +5,7 @@ public enum Node {
 	case Text(Int, String)
 }
 
-open class Parser {
+class Parser {
 	
 	let tokens: [Token]
 	var index = 0
@@ -14,7 +14,10 @@ open class Parser {
 		self.tokens = tokens
 	}
 	
-	func peekToken() -> Token {
+	func peekToken() -> Token? {
+		if index >= tokens.count {
+			return nil
+		}
 		return tokens[index]
 	}
 	
@@ -34,14 +37,18 @@ open class Parser {
 				nodes.append(.Header(line, depth, text));
 				
 			case .Text(let line, let text):
-				switch peekToken() {
-				case .UnderlineHeader1:
-					nodes.append(.Header(line, 1, text))
-					_ = popToken()
-				case .UnderlineHeader2:
-					nodes.append(.Header(line, 2, text))
-					_ = popToken()
-				default:
+				if let nextToken = peekToken() {
+					switch nextToken {
+					case .UnderlineHeader1:
+						nodes.append(.Header(line, 1, text))
+						_ = popToken()
+					case .UnderlineHeader2:
+						nodes.append(.Header(line, 2, text))
+						_ = popToken()
+					default:
+						nodes.append(.Text(line, text))
+					}
+				} else {
 					nodes.append(.Text(line, text))
 				}
 				

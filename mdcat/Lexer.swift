@@ -18,7 +18,7 @@ let tokenList: [(regex:String, (Int, String) -> Token?)] = [
 	("^-+$",		{ _,_ in .UnderlineHeader2() })
 ]
 
-open class Lexer {
+class Lexer {
 	let input: String
 	
 	init(input: String) {
