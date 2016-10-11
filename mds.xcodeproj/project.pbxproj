@@ -29,7 +29,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6306B5FA1DA14459001FD098 /* mdcat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mdcat; sourceTree = BUILT_PRODUCTS_DIR; };
+		6306B5FA1DA14459001FD098 /* mds */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mds; sourceTree = BUILT_PRODUCTS_DIR; };
 		6306B5FD1DA14459001FD098 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6306B6041DA147CE001FD098 /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		6317B3061DA168D1009674AE /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 		6306B5F11DA14459001FD098 = {
 			isa = PBXGroup;
 			children = (
-				6306B5FC1DA14459001FD098 /* mdcat */,
+				6306B5FC1DA14459001FD098 /* mds */,
 				6306B5FB1DA14459001FD098 /* Products */,
 				6399F7601DAD3BE1005BABAA /* Frameworks */,
 			);
@@ -66,12 +66,12 @@
 		6306B5FB1DA14459001FD098 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6306B5FA1DA14459001FD098 /* mdcat */,
+				6306B5FA1DA14459001FD098 /* mds */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6306B5FC1DA14459001FD098 /* mdcat */ = {
+		6306B5FC1DA14459001FD098 /* mds */ = {
 			isa = PBXGroup;
 			children = (
 				63EC552E1DA1966500C08E40 /* Utils */,
@@ -82,7 +82,7 @@
 				6399F75E1DAD374B005BABAA /* Screen.swift */,
 				6399F7631DAD3F2B005BABAA /* Document.swift */,
 			);
-			path = mdcat;
+			path = mds;
 			sourceTree = "<group>";
 		};
 		6399F7601DAD3BE1005BABAA /* Frameworks */ = {
@@ -114,9 +114,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6306B5F91DA14459001FD098 /* mdcat */ = {
+		6306B5F91DA14459001FD098 /* mds */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6306B6011DA14459001FD098 /* Build configuration list for PBXNativeTarget "mdcat" */;
+			buildConfigurationList = 6306B6011DA14459001FD098 /* Build configuration list for PBXNativeTarget "mds" */;
 			buildPhases = (
 				6306B5F61DA14459001FD098 /* Sources */,
 				6306B5F71DA14459001FD098 /* Frameworks */,
@@ -126,9 +126,9 @@
 			);
 			dependencies = (
 			);
-			name = mdcat;
-			productName = mdcat;
-			productReference = 6306B5FA1DA14459001FD098 /* mdcat */;
+			name = mds;
+			productName = mds;
+			productReference = 6306B5FA1DA14459001FD098 /* mds */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -147,7 +147,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6306B5F51DA14459001FD098 /* Build configuration list for PBXProject "mdcat" */;
+			buildConfigurationList = 6306B5F51DA14459001FD098 /* Build configuration list for PBXProject "mds" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -159,7 +159,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6306B5F91DA14459001FD098 /* mdcat */,
+				6306B5F91DA14459001FD098 /* mds */,
 			);
 		};
 /* End PBXProject section */
@@ -288,7 +288,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6306B5F51DA14459001FD098 /* Build configuration list for PBXProject "mdcat" */ = {
+		6306B5F51DA14459001FD098 /* Build configuration list for PBXProject "mds" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6306B5FF1DA14459001FD098 /* Debug */,
@@ -297,7 +297,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6306B6011DA14459001FD098 /* Build configuration list for PBXNativeTarget "mdcat" */ = {
+		6306B6011DA14459001FD098 /* Build configuration list for PBXNativeTarget "mds" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6306B6021DA14459001FD098 /* Debug */,
