@@ -41,7 +41,9 @@ class UI {
 		
 		self.document = withDocument
 		self.selectedNode = self.document.toc[0]
-		
+	}
+	
+	func start() {
 		self.reset()
 		self.update()
 		self.getInput()
@@ -114,7 +116,7 @@ class UI {
 	func goUp() {
 		switch self.mode {
 		case .TEXT:
-			self.textLine = min(self.textLine-1, 0)
+			self.textLine = max(self.textLine-1, 0)
 			
 		case .STRUCTURE:
 			if let header = self.document.getHeader(atIndex: self.structureLine - 1) {
@@ -129,7 +131,7 @@ class UI {
 	func goDown() {
 		switch self.mode {
 		case .TEXT:
-			self.textLine = max(self.textLine+1, self.document.text.count-1)
+			self.textLine = min(self.textLine+1, self.document.text.count-1)
 			
 		case .STRUCTURE:
 			if let header = self.document.getHeader(atIndex: self.structureLine + 1) {

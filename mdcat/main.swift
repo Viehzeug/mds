@@ -36,7 +36,7 @@ do {
 	// Parse document
 	let doc = Document(withText: text)
 	
-	_ = UI(withDocument: doc)
+	UI(withDocument: doc).start()
 	
 } catch {
 	print("Could not load file: " + file);

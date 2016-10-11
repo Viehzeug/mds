@@ -37,6 +37,7 @@
 		6399F75E1DAD374B005BABAA /* Screen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		6399F7611DAD3BE1005BABAA /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
 		6399F7631DAD3F2B005BABAA /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		63DC8FA31DAD5FAF00DEA832 /* large.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = large.md; path = Testfiles/large.md; sourceTree = "<group>"; };
 		63EC552D1DA190A200C08E40 /* simple.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = simple.md; path = Testfiles/simple.md; sourceTree = "<group>"; };
 		63EC552F1DA1968000C08E40 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Utils/String.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,6 +98,7 @@
 			children = (
 				63EC552D1DA190A200C08E40 /* simple.md */,
 				6399F75C1DAD35A3005BABAA /* basic.md */,
+				63DC8FA31DAD5FAF00DEA832 /* large.md */,
 			);
 			name = Testfiles;
 			sourceTree = "<group>";
