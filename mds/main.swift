@@ -1,29 +1,10 @@
 import Foundation
 
-public func printArray(_ tokens:[Any]) {
-	for token in tokens {
-		print(token)
-	}
-}
-
-public func printTOC(_ nodes:[Node]) {
-	for node in nodes {
-		switch node {
-		case .Header(let line, let depth, let text):
-			let indent = String(repeating: "  ", count:depth-1)
-			print(indent + text + " (" + String(line) + ")")
-			
-		default:
-			()
-		}
-	}
-}
-
 // Get CLI arguments
 let arguments = CommandLine.arguments
 
 if arguments.count < 2 {
-	print("I need a file!")
+	print("Usage: mds <filename>")
 	exit(1)
 }
 
@@ -36,6 +17,7 @@ do {
 	// Parse document
 	let doc = Document(withText: text)
 	
+	// Display UI
 	UI(withDocument: doc).start()
 	
 } catch {
