@@ -237,12 +237,20 @@ class UI {
 		Renders the UI in Text mode
 	*/
 	func renderText() {
-		var y:Int32 = 0
+		// Get screen size
+		let screenSize = self.getScreenSize()
+		
+		// Render the document
+		var y = 0
 		let lines = self.document.text
 		for line in lines[self.textLine..<lines.count] {
-			move(y, 0)
+			move(Int32(y), 0)
 			addstr(line)
 			y += 1
+			
+			if y+1 >= screenSize.1 {
+				break
+			}
 		}
 	}
 	
@@ -250,20 +258,41 @@ class UI {
 		Renders the UI in Strcture mode
 	*/
 	func renderStructure() {
+		// Get screen size
+		let screenSize = self.getScreenSize()
+		
+		// Go over the document structure
 		var y = 0;
 		for node in self.document.structure {
+			
+			// Only show headers
 			switch node {
 			case .Header(let line, let depth, let text):
 				let indent = String(repeating: "  ", count: depth-1)
 				let lineCursor = (y == self.structureLine ? " -> " : "    ")
 				let lineForPrint = String(line+1)
-				move(y+1, 0)
+				move(Int32(y+1), 0)
 				addstr(lineCursor + indent + text + " (" + lineForPrint + ")")
 				y += 1
 				
 			default:
 				()
 			}
+			
+			if y+1 >= screenSize.1 {
+				break
+			}
 		}
+	}
+	
+	/**
+		Gets the curren screen size
+
+		- Returns: A tuple representing the screen size (width, height)
+	*/
+	private func getScreenSize() -> (Int, Int) {
+		let maxx = getmaxx(stdscr)
+		let maxy = getmaxy(stdscr)
+		return (Int(maxx), Int(maxy))
 	}
 }
