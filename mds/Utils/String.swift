@@ -39,4 +39,38 @@ public extension String {
 		}
 		return nil
 	}
+	
+	func splitByLength(_ length: Int) -> [String] {
+		var result = [String]()
+		var collectedCharacters = [Character]()
+		collectedCharacters.reserveCapacity(length)
+		var count = 0
+		
+		for character in self.characters {
+			collectedCharacters.append(character)
+			count += 1
+			if (count == length) {
+				// Reached the desired length
+				count = 0
+				result.append(String(collectedCharacters))
+				collectedCharacters.removeAll(keepingCapacity: true)
+			}
+		}
+		
+		// Append the remainder
+		if !collectedCharacters.isEmpty {
+			result.append(String(collectedCharacters))
+		}
+		
+		return result
+	}
+	
+	func truncate(length: Int, trailing: String = "...") -> String {
+		if self.characters.count > length {
+			let stringLength = length - trailing.characters.count
+			return self.substring(to: self.index(self.startIndex, offsetBy: stringLength)) + trailing
+		} else {
+			return self
+		}
+	}
 }

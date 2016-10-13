@@ -244,9 +244,15 @@ class UI {
 		let lines = self.document.text
 		let endIndex = min(self.textLine + screenSize.1 - 2, lines.count)
 		for line in lines[self.textLine ..< endIndex] {
-			move(Int32(y), 0)
-			addstr(line)
-			y += 1
+			if line.characters.count == 0 {
+				y += 1
+			} else {
+				for segment in line.splitByLength(screenSize.0) {
+					move(Int32(y), 0)
+					addstr(segment)
+					y += 1
+				}
+			}
 		}
 	}
 	
@@ -270,10 +276,13 @@ class UI {
 		for header in self.document.headers[self.structureOffset ..< endIndex] {
 			
 			let indent = String(repeating: "  ", count: header.depth-1)
-			let lineCursor = ((self.structureOffset + y) == self.structureLine ? " -> " : "    ")
+			let lineCursor = ((self.structureOffset + y) == self.structureLine ? "-> " : "   ")
 			let lineForPrint = String(header.line+1)
+			
+			let displayString = lineCursor + indent + header.text + " (" + lineForPrint + ")"
+			
 			move(Int32(y), 0)
-			addstr(lineCursor + indent + header.text + " (" + lineForPrint + ")")
+			addstr(displayString.truncate(length: screenSize.0, trailing: "..."))
 			y += 1
 		}
 	}
