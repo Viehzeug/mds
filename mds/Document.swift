@@ -18,6 +18,7 @@ class Document {
 		- Returns: A Document object
 	*/
 	init(withText: String) {
+		
 		// Store the text
 		self.text = withText.components(separatedBy: "\n")
 		

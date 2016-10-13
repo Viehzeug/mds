@@ -267,7 +267,8 @@ class UI {
 		
 		// Go over the document headers
 		var y = 0;
-		for header in self.document.headers[self.structureOffset..<self.structureOffset + screenSize.1] {
+		let endIndex = min(self.structureOffset + screenSize.1, self.document.headers.count)
+		for header in self.document.headers[self.structureOffset ..< endIndex] {
 			
 			let indent = String(repeating: "  ", count: header.depth-1)
 			let lineCursor = ((self.structureOffset + y) == self.structureLine ? " -> " : "    ")
