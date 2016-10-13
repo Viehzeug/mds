@@ -1,11 +1,13 @@
 import Foundation
 
+// A function to construct multiline Strings
 public func multiline(_ x: String...) -> String {
 	return x.joined(separator: "\n")
 }
 
 var expressions = [String: NSRegularExpression]()
 
+// Extend String with subscript and regex methods
 public extension String {
 	subscript (i: Int) -> Character {
 		return self[self.index(self.startIndex, offsetBy: i)]

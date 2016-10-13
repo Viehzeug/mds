@@ -7,7 +7,7 @@ class Document {
 	let text: [String]
 	
 	// The structure of the document
-	let structure: [Node]
+	let headers: [Header]
 	
 	/**
 		Initializes a new Document with a given text
@@ -25,7 +25,7 @@ class Document {
 		let lexer = Lexer(input: withText)
 		let tokens = lexer.tokenize()
 		let parser = Parser(tokens: tokens)
-		self.structure = parser.parse()
+		self.headers = parser.parse()
 	}
 	
 	/**
@@ -36,22 +36,7 @@ class Document {
 	
 		- Returns: The header at the given index
 	*/
-	func getHeader(atIndex: Int) -> Node? {
-		var headerCount = 0
-		for node in self.structure {
-			switch node {
-			case .Header(_, _, _):
-				if headerCount == atIndex {
-					return node
-				} else {
-					headerCount += 1
-				}
-				
-			default:
-				()
-			}
-		}
-		
-		return nil
+	func getHeader(atIndex: Int) -> Header? {
+		return self.headers[safe: atIndex]
 	}
 }

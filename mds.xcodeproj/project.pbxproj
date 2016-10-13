@@ -14,6 +14,7 @@
 		6399F7621DAD3BE1005BABAA /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6399F7611DAD3BE1005BABAA /* libncurses.tbd */; };
 		6399F7641DAD3F2B005BABAA /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6399F7631DAD3F2B005BABAA /* Document.swift */; };
 		63EC55301DA1968000C08E40 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EC552F1DA1968000C08E40 /* String.swift */; };
+		63F9B2ED1DAF94B8008BD7C4 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F9B2EC1DAF94B8008BD7C4 /* Collection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +41,7 @@
 		63DC8FA31DAD5FAF00DEA832 /* large.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = large.md; path = Testfiles/large.md; sourceTree = "<group>"; };
 		63EC552D1DA190A200C08E40 /* simple.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = simple.md; path = Testfiles/simple.md; sourceTree = "<group>"; };
 		63EC552F1DA1968000C08E40 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Utils/String.swift; sourceTree = "<group>"; };
+		63F9B2EC1DAF94B8008BD7C4 /* Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				63EC552F1DA1968000C08E40 /* String.swift */,
+				63F9B2EC1DAF94B8008BD7C4 /* Collection.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 				63EC55301DA1968000C08E40 /* String.swift in Sources */,
 				6306B5FE1DA14459001FD098 /* main.swift in Sources */,
 				6399F7641DAD3F2B005BABAA /* Document.swift in Sources */,
+				63F9B2ED1DAF94B8008BD7C4 /* Collection.swift in Sources */,
 				6399F75F1DAD374B005BABAA /* UI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

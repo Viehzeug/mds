@@ -63,11 +63,14 @@ class UI {
 	// The currently selected line in the structure
 	var structureLine = 0
 	
+	// The current offset of the structure list
+	var structureOffset = 0
+	
 	// The current mode
 	var mode: Mode = .Structure
 	
 	// The currently selected node
-	var selectedNode: Node
+	var selectedHeader: Header
 
 	/**
 		Initializes the UI
@@ -89,7 +92,8 @@ class UI {
 		self.document = withDocument
 		
 		// By default, select the first node
-		self.selectedNode = self.document.structure[0]
+		// TODO: This crashes if the markdown file does not have any headers
+		self.selectedHeader = self.document.headers[0]
 	}
 	
 	/**
@@ -157,14 +161,7 @@ class UI {
 				case .Enter:
 					switch self.mode {
 					case .Structure:
-						switch self.selectedNode {
-						case .Header(let line, _, _):
-							self.textLine = line
-							
-						default:
-							self.textLine = 0
-						}
-						
+						self.textLine = self.selectedHeader.line
 						self.mode = .Text
 						
 					case .Text:
@@ -190,7 +187,7 @@ class UI {
 			
 		case .Structure:
 			if let header = self.document.getHeader(atIndex: self.structureLine - 1) {
-				self.selectedNode = header
+				self.selectedHeader = header
 				self.structureLine -= 1
 			}
 		}
@@ -208,7 +205,7 @@ class UI {
 			
 		case .Structure:
 			if let header = self.document.getHeader(atIndex: self.structureLine + 1) {
-				self.selectedNode = header
+				self.selectedHeader = header
 				self.structureLine += 1
 			}
 		}
@@ -255,38 +252,34 @@ class UI {
 	}
 	
 	/**
-		Renders the UI in Strcture mode
+		Renders the UI in Structure mode
 	*/
 	func renderStructure() {
 		// Get screen size
 		let screenSize = self.getScreenSize()
 		
-		// Go over the document structure
+		// Calculate the offset
+		if self.structureLine >= self.structureOffset + screenSize.1 {
+			self.structureOffset = self.structureLine - screenSize.1 + 1
+		} else if self.structureLine < self.structureOffset {
+			self.structureOffset = self.structureLine
+		}
+		
+		// Go over the document headers
 		var y = 0;
-		for node in self.document.structure {
+		for header in self.document.headers[self.structureOffset..<self.structureOffset + screenSize.1] {
 			
-			// Only show headers
-			switch node {
-			case .Header(let line, let depth, let text):
-				let indent = String(repeating: "  ", count: depth-1)
-				let lineCursor = (y == self.structureLine ? " -> " : "    ")
-				let lineForPrint = String(line+1)
-				move(Int32(y+1), 0)
-				addstr(lineCursor + indent + text + " (" + lineForPrint + ")")
-				y += 1
-				
-			default:
-				()
-			}
-			
-			if y+1 >= screenSize.1 {
-				break
-			}
+			let indent = String(repeating: "  ", count: header.depth-1)
+			let lineCursor = ((self.structureOffset + y) == self.structureLine ? " -> " : "    ")
+			let lineForPrint = String(header.line+1)
+			move(Int32(y), 0)
+			addstr(lineCursor + indent + header.text + " (" + lineForPrint + ")")
+			y += 1
 		}
 	}
 	
 	/**
-		Gets the curren screen size
+		Gets the current screen size
 
 		- Returns: A tuple representing the screen size (width, height)
 	*/
