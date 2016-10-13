@@ -34,13 +34,13 @@
 		6306B5FD1DA14459001FD098 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6306B6041DA147CE001FD098 /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		6317B3061DA168D1009674AE /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		6399F75C1DAD35A3005BABAA /* basic.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = basic.md; path = Testfiles/basic.md; sourceTree = "<group>"; };
+		6399F75C1DAD35A3005BABAA /* basic.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = basic.md; sourceTree = "<group>"; };
 		6399F75E1DAD374B005BABAA /* UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		6399F7611DAD3BE1005BABAA /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
 		6399F7631DAD3F2B005BABAA /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
-		63DC8FA31DAD5FAF00DEA832 /* large.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = large.md; path = Testfiles/large.md; sourceTree = "<group>"; };
-		63EC552D1DA190A200C08E40 /* simple.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = simple.md; path = Testfiles/simple.md; sourceTree = "<group>"; };
-		63EC552F1DA1968000C08E40 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Utils/String.swift; sourceTree = "<group>"; };
+		63DC8FA31DAD5FAF00DEA832 /* large.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = large.md; sourceTree = "<group>"; };
+		63EC552D1DA190A200C08E40 /* simple.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = simple.md; sourceTree = "<group>"; };
+		63EC552F1DA1968000C08E40 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		63F9B2EC1DAF94B8008BD7C4 /* Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,13 +76,11 @@
 		6306B5FC1DA14459001FD098 /* mds */ = {
 			isa = PBXGroup;
 			children = (
+				63F9B2EF1DAFD007008BD7C4 /* Processing */,
+				63F9B2EE1DAFCFFA008BD7C4 /* UI */,
 				63EC552E1DA1966500C08E40 /* Utils */,
 				63EC552C1DA1904C00C08E40 /* Testfiles */,
 				6306B5FD1DA14459001FD098 /* main.swift */,
-				6306B6041DA147CE001FD098 /* Lexer.swift */,
-				6317B3061DA168D1009674AE /* Parser.swift */,
-				6399F75E1DAD374B005BABAA /* UI.swift */,
-				6399F7631DAD3F2B005BABAA /* Document.swift */,
 			);
 			path = mds;
 			sourceTree = "<group>";
@@ -102,7 +100,7 @@
 				6399F75C1DAD35A3005BABAA /* basic.md */,
 				63DC8FA31DAD5FAF00DEA832 /* large.md */,
 			);
-			name = Testfiles;
+			path = Testfiles;
 			sourceTree = "<group>";
 		};
 		63EC552E1DA1966500C08E40 /* Utils */ = {
@@ -111,7 +109,25 @@
 				63EC552F1DA1968000C08E40 /* String.swift */,
 				63F9B2EC1DAF94B8008BD7C4 /* Collection.swift */,
 			);
-			name = Utils;
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		63F9B2EE1DAFCFFA008BD7C4 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				6399F75E1DAD374B005BABAA /* UI.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		63F9B2EF1DAFD007008BD7C4 /* Processing */ = {
+			isa = PBXGroup;
+			children = (
+				6306B6041DA147CE001FD098 /* Lexer.swift */,
+				6317B3061DA168D1009674AE /* Parser.swift */,
+				6399F7631DAD3F2B005BABAA /* Document.swift */,
+			);
+			path = Processing;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
