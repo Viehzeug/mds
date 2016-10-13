@@ -227,6 +227,8 @@ class UI {
 			self.renderStructure()
 		}
 		
+		self.renderStatusBar()
+		
 		refresh()
 	}
 	
@@ -240,14 +242,11 @@ class UI {
 		// Render the document
 		var y = 0
 		let lines = self.document.text
-		for line in lines[self.textLine..<lines.count] {
+		let endIndex = min(self.textLine + screenSize.1 - 2, lines.count)
+		for line in lines[self.textLine ..< endIndex] {
 			move(Int32(y), 0)
 			addstr(line)
 			y += 1
-			
-			if y+1 >= screenSize.1 {
-				break
-			}
 		}
 	}
 	
@@ -259,15 +258,15 @@ class UI {
 		let screenSize = self.getScreenSize()
 		
 		// Calculate the offset
-		if self.structureLine >= self.structureOffset + screenSize.1 {
-			self.structureOffset = self.structureLine - screenSize.1 + 1
+		if self.structureLine >= self.structureOffset + screenSize.1 - 2 {
+			self.structureOffset = self.structureLine - screenSize.1 + 3
 		} else if self.structureLine < self.structureOffset {
 			self.structureOffset = self.structureLine
 		}
 		
 		// Go over the document headers
 		var y = 0;
-		let endIndex = min(self.structureOffset + screenSize.1, self.document.headers.count)
+		let endIndex = min(self.structureOffset + screenSize.1 - 2, self.document.headers.count)
 		for header in self.document.headers[self.structureOffset ..< endIndex] {
 			
 			let indent = String(repeating: "  ", count: header.depth-1)
@@ -277,6 +276,31 @@ class UI {
 			addstr(lineCursor + indent + header.text + " (" + lineForPrint + ")")
 			y += 1
 		}
+	}
+	
+	/**
+		Renders the status bar
+	*/
+	func renderStatusBar() {
+		// Get screen size
+		let screenSize = self.getScreenSize()
+		
+		// Draw divider line
+		move(Int32(screenSize.1 - 2), 0)
+		hline(UInt32(UInt8(ascii:"-")), Int32(screenSize.0))
+		
+		// Draw status bar content
+		move(Int32(screenSize.1 - 1), 0)
+		let modeName: String = "Mode: " + {
+			switch self.mode {
+			case .Structure:
+				return "Structure"
+				
+			case .Text:
+				return "Text"
+			}
+		}()
+		addstr(modeName)
 	}
 	
 	/**
