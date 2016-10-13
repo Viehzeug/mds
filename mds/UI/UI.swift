@@ -40,6 +40,24 @@ enum Mode {
 	case Structure
 }
 
+// A struct to represent the size of elements
+struct Size {
+	// The width of the element
+	var width: Int
+	
+	// The height of the element
+	var height: Int
+}
+
+// A struct to represent the location of elements
+struct Location {
+	// The x location of the element
+	var x: Int
+	
+	// The y location of the element
+	var y: Int
+}
+
 /**
 	Traps a signal
 
@@ -57,21 +75,18 @@ class UI {
 	// The document to display
 	let document: Document
 	
-	// The currently selected line in the text
-	var textLine = 0
-	
-	// The currently selected line in the structure
-	var structureLine = 0
-	
-	// The current offset of the structure list
-	var structureOffset = 0
-	
 	// The current mode
 	var mode: Mode = .Structure
-	
-	// The currently selected node
-	var selectedHeader: Header
 
+	// The status Bar
+	let statusBar: StatusBarView
+	
+	// The view to display the document structure
+	let structureView: StructureView
+	
+	// The view to display the document text
+	let textView: TextView
+	
 	/**
 		Initializes the UI
 	
@@ -81,7 +96,6 @@ class UI {
 		- Returns: A new UI object
 	*/
 	init(withDocument: Document) {
-		
 		// React to SIGINT
 		trap(signum:.INT) { signal in
 			endwin()
@@ -91,24 +105,25 @@ class UI {
 		// Store the document
 		self.document = withDocument
 		
-		// By default, select the first node
-		// TODO: This crashes if the markdown file does not have any headers
-		self.selectedHeader = self.document.headers[0]
+		// Initialize UI components
+		statusBar = StatusBarView()
+		structureView = StructureView(document: document)
+		textView = TextView(document: document)
 	}
 	
 	/**
 		Starts displaying the UI
 	*/
 	func start() {
-		self.reset()
-		self.update()
-		self.getInput()
+		reset()
+		update()
+		getInput()
 	}
 	
 	/**
 		Resets the screen
 	*/
-	func reset() {
+	private func reset() {
 		endwin()
 		refresh()
 		initscr()
@@ -120,7 +135,7 @@ class UI {
 	/**
 		Reads keyboard input and reacts accordingly
 	*/
-	func getInput() {
+	private func getInput() {
 		while true {
 			
 			// Get the key pressed
@@ -147,10 +162,10 @@ class UI {
 						
 						switch nextKey {
 						case .Up:
-							self.goUp()
+							goUp()
 						
 						case .Down:
-							self.goDown()
+							goDown()
 						
 						default:
 							()
@@ -161,14 +176,14 @@ class UI {
 				case .Enter:
 					switch self.mode {
 					case .Structure:
-						self.textLine = self.selectedHeader.line
-						self.mode = .Text
+						textView.line = structureView.selectedHeader.line
+						mode = .Text
 						
 					case .Text:
-						self.mode = .Structure
+						mode = .Structure
 					}
 					
-					self.update()
+					update()
 				
 				default:
 					()
@@ -181,36 +196,30 @@ class UI {
 		Navigates up in the displayed data
 	*/
 	func goUp() {
-		switch self.mode {
+		switch mode {
 		case .Text:
-			self.textLine = max(self.textLine-1, 0)
+			textView.goUp()
 			
 		case .Structure:
-			if let header = self.document.getHeader(atIndex: self.structureLine - 1) {
-				self.selectedHeader = header
-				self.structureLine -= 1
-			}
+			structureView.goUp()
 		}
 		
-		self.update()
+		update()
 	}
 	
 	/**
 		Navigates down in the displayed data
 	*/
 	func goDown() {
-		switch self.mode {
+		switch mode {
 		case .Text:
-			self.textLine = min(self.textLine+1, self.document.text.count-1)
+			textView.goDown()
 			
 		case .Structure:
-			if let header = self.document.getHeader(atIndex: self.structureLine + 1) {
-				self.selectedHeader = header
-				self.structureLine += 1
-			}
+			structureView.goDown()
 		}
 		
-		self.update()
+		update()
 	}
 	
 	/**
@@ -218,108 +227,62 @@ class UI {
 	*/
 	func update() {
 		clear()
-		
-		switch self.mode {
-		case .Text:
-			self.renderText()
-			
-		case .Structure:
-			self.renderStructure()
-		}
-		
-		self.renderStatusBar()
-		
+		layout()
+		render()
 		refresh()
 	}
 	
 	/**
-		Renders the UI in Text mode
+		Lays out all UI components
 	*/
-	func renderText() {
-		// Get screen size
-		let screenSize = self.getScreenSize()
+	private func layout() {
+		// Get current size
+		let screenSize = getScreenSize()
 		
-		// Render the document
-		var y = 0
-		let lines = self.document.text
-		let endIndex = min(self.textLine + screenSize.1 - 2, lines.count)
-		for line in lines[self.textLine ..< endIndex] {
-			if line.characters.count == 0 {
-				y += 1
-			} else {
-				for segment in line.splitByLength(screenSize.0) {
-					move(Int32(y), 0)
-					addstr(segment)
-					y += 1
-				}
-			}
+		// Set the status bar
+		statusBar.mode = mode
+		statusBar.location = Location(x: 0, y: screenSize.height - 1)
+		statusBar.size = Size(width: screenSize.width, height: 1)
+		
+		switch mode {
+		case .Structure:
+			structureView.location = Location(x: 0, y: 0)
+			structureView.size = Size(width: screenSize.width, height: screenSize.height - 2)
+			
+		case .Text:
+			textView.location = Location(x: 0, y: 0)
+			textView.size = Size(width: screenSize.width, height: screenSize.height - 2)
 		}
 	}
 	
 	/**
-		Renders the UI in Structure mode
+		Renders the UI
 	*/
-	func renderStructure() {
-		// Get screen size
-		let screenSize = self.getScreenSize()
-		
-		// Calculate the offset
-		if self.structureLine >= self.structureOffset + screenSize.1 - 2 {
-			self.structureOffset = self.structureLine - screenSize.1 + 3
-		} else if self.structureLine < self.structureOffset {
-			self.structureOffset = self.structureLine
+	private func render() {
+		// Render components
+		switch mode {
+		case .Text:
+			textView.render()
+			
+		case .Structure:
+			structureView.render()
 		}
 		
-		// Go over the document headers
-		var y = 0;
-		let endIndex = min(self.structureOffset + screenSize.1 - 2, self.document.headers.count)
-		for header in self.document.headers[self.structureOffset ..< endIndex] {
-			
-			let indent = String(repeating: "  ", count: header.depth-1)
-			let lineCursor = ((self.structureOffset + y) == self.structureLine ? "-> " : "   ")
-			let lineForPrint = String(header.line+1)
-			
-			let displayString = lineCursor + indent + header.text + " (" + lineForPrint + ")"
-			
-			move(Int32(y), 0)
-			addstr(displayString.truncate(length: screenSize.0, trailing: "..."))
-			y += 1
-		}
-	}
-	
-	/**
-		Renders the status bar
-	*/
-	func renderStatusBar() {
-		// Get screen size
-		let screenSize = self.getScreenSize()
+		statusBar.render()
 		
-		// Draw divider line
-		move(Int32(screenSize.1 - 2), 0)
-		hline(UInt32(UInt8(ascii:"-")), Int32(screenSize.0))
-		
-		// Draw status bar content
-		move(Int32(screenSize.1 - 1), 0)
-		let modeName: String = "Mode: " + {
-			switch self.mode {
-			case .Structure:
-				return "Structure"
-				
-			case .Text:
-				return "Text"
-			}
-		}()
-		addstr(modeName)
+		// Render divider lines
+		move(Int32(statusBar.location.y - 1), Int32(statusBar.location.x))
+		hline(UInt32(UInt8(ascii:"-")), Int32(statusBar.size.width))
 	}
-	
+
 	/**
 		Gets the current screen size
 
 		- Returns: A tuple representing the screen size (width, height)
 	*/
-	private func getScreenSize() -> (Int, Int) {
+	private func getScreenSize() -> Size {
 		let maxx = getmaxx(stdscr)
 		let maxy = getmaxy(stdscr)
-		return (Int(maxx), Int(maxy))
+		return Size(width: Int(maxx), height: Int(maxy))
 	}
 }
