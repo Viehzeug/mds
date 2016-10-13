@@ -17,7 +17,15 @@ class TextView: DocumentView {
 					move(Int32(y), 0)
 					addstr(segment)
 					y += 1
+					
+					if(y >= size.height) {
+						break;
+					}
 				}
+			}
+			
+			if(y >= size.height) {
+				break;
 			}
 		}
 	}
